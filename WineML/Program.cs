@@ -26,53 +26,41 @@ namespace WineML
 
         static void Main(string[] args)
         {
-            PrintHeader("Tasting wine with ML.NET");
+            // Note: 22-11-2024 - Throwing an error in VS Code
+            // PrintHeader("Tasting wine with ML.NET");
+
+            Console.WriteLine("-----Tasting wine with ML.NET------");
+             Console.WriteLine("");
 
             var mlContext = new MLContext();
 
             Console.Write("Load training data...");
+
             var trainingData = LoadData(mlContext, "winequality-white-train.csv");
+
             Console.WriteLine("DONE!");
 
             Console.Write("Load validation data...");
+
             var validationData = LoadData(mlContext, "winequality-white-validate.csv");
+
             Console.WriteLine("DONE!");
 
             Console.WriteLine("\r\n");
 
-
             Console.WriteLine("**** TRAIN AND EVALUATE MODEL WITH ALL FEATURES *****");
 
-            // Only while testing / learning
-            // Note: Both model training and validation are done by this method
-            //TrainAndEvaluateTest(mlContext, trainingData, validationData);
-
-            // Note: The Training is done by another method call CreateModel
+            // Train and evaluate the Model with all features
+            // The model training is done by CreateModel
             TrainAndValidate(mlContext, trainingData, validationData);
+            
+            // Note: Just a demo while learning and trying to understanding the Training part !
+            // Both model training and validation are done inside this method
+            // TrainAndEvaluateTest(mlContext, trainingData, validationData);
 
             Console.WriteLine("\r\n");
 
             Console.WriteLine("**** PREDICT QUALITY OF THE SELECTED WINE *****");
-
-            // Only  while testing / learning
-            // Note: The model training are done in this method
-            /*PredictTest(mlContext, trainingData, new WineData
-            {
-                FixedAcidity = 7.6F,
-                VolatileAcidity = 0.17F,
-                CitricAcid = 0.27F,
-                ResidualSugar = 4.6F,
-                Chlorides = 0.05F,
-                FreeSulfurDioxide = 23,
-                TotalSulfurDioxide = 98,
-                Density = 0.99422F,
-                Ph = 3.08F,
-                Sulphates = 0.47F,
-                Alcohol = 9.5F,
-                Quality = 0 // We are gonna predict this. The expected value is 6
-            }); 
-
-            */
 
             // The model training is done by CreateModel
             Predict(mlContext, trainingData, new WineData {
@@ -92,10 +80,9 @@ namespace WineML
 
             Console.WriteLine("\r\n");
 
-
             Console.WriteLine("**** FIND THE BEST FIT TO FIND A GOOD WINE  *****");
+            
             FindBestFit(mlContext, trainingData, validationData);
-
 
             // Note: Works by running the App by promt and VS Code
             Console.WriteLine("Press Enter / Return to exit...");
@@ -112,58 +99,7 @@ namespace WineML
             return mlContext.Data.LoadFromTextFile<WineData>(dataPath, separatorChar: ';', hasHeader: true);
         }
 
-        // Only while testing / learning
-        // Testing: Showing the code of training directly - more clear to read but duplicate code !
-        /*
-        private static void TrainAndEvaluateTest(MLContext mlContext, IDataView trainingData, IDataView validationData)
-        {
-            Console.Write("Train model - Test...");
-
-            // Note: Instead of calling the method CreateModel
-            // Transform colums, train the model with the regression algoritme using Fit
-            var model = mlContext.Transforms.CopyColumns(outputColumnName: "Label", inputColumnName: nameof(WineData.Quality))
-                        .Append(mlContext.Transforms.Concatenate("Features", _features))
-                        .Append(mlContext.Regression.Trainers.FastTree())
-                        .Fit(trainingData);
-
-            Console.WriteLine("DONE!");
-
-
-            Console.Write("Evaluate model - Test...");
-            var predictions = model.Transform(validationData);
-            var metrics = mlContext.Regression.Evaluate(predictions, "Label", "Score");
-            Console.WriteLine("DONE!");
-
-            Console.WriteLine($"RSquared Score: {metrics.RSquared:0.##}");
-            Console.WriteLine($"Root Mean Squared Error: {metrics.RootMeanSquaredError:#.##}");
-        }
-        */
-
-        // Only while testing / learning
-        // Testing: Showing the code of training directly - more clear to read but duplicate code !
-        /*
-        private static void PredictTest(MLContext mlContext, IDataView trainingData, WineData wineData)
-        {
-            Console.Write("Train model - Test...");
-
-            // Note: Instead of calling the method CreateModel
-            // Transform colums, train the model with the regression algoritme using Fit
-            var model = mlContext.Transforms.CopyColumns(outputColumnName: "Label", inputColumnName: nameof(WineData.Quality))
-                        .Append(mlContext.Transforms.Concatenate("Features", _features))
-                        .Append(mlContext.Regression.Trainers.FastTree())
-                        .Fit(trainingData);
-
-            Console.WriteLine("DONE!");
-
-            Console.Write("Predicting quality - Test...");
-            var predictionFunction = mlContext.Model.CreatePredictionEngine<WineData, WinePrediction>(model);
-            var prediction = predictionFunction.Predict(wineData);
-            Console.WriteLine($"{prediction.Quality:0.##}");
-        }
-        */
-
-
-
+       
         private static void TrainAndValidate(MLContext mlContext, IDataView trainingData, IDataView validationData)
         {
             Console.Write("Train model...");
@@ -192,7 +128,6 @@ namespace WineML
             Console.WriteLine($"{prediction.Quality:0.##}");
         }
         
-
 
         private static void FindBestFit(MLContext mlContext, IDataView trainingData, IDataView validationData)
         {
@@ -251,5 +186,31 @@ namespace WineML
             Console.ForegroundColor = originalForegroundColor;
             Console.BackgroundColor = originalBackgroundColor;
         }
+
+        // Note: Just a demo while learning
+        // Showing the code of training directly - more clear to read but duplicate code !
+        /*
+        private static void TrainAndEvaluateTest(MLContext mlContext, IDataView trainingData, IDataView validationData)
+        {
+            Console.Write("Train model - Test...");
+
+            // Note: Instead of calling the method CreateModel
+            // Transform colums, train the model with the regression algoritme using Fit
+            var model = mlContext.Transforms.CopyColumns(outputColumnName: "Label", inputColumnName: nameof(WineData.Quality))
+                        .Append(mlContext.Transforms.Concatenate("Features", _features))
+                        .Append(mlContext.Regression.Trainers.FastTree())
+                        .Fit(trainingData);
+
+            Console.WriteLine("DONE!");
+
+            Console.Write("Evaluate model - Test...");
+            var predictions = model.Transform(validationData);
+            var metrics = mlContext.Regression.Evaluate(predictions, "Label", "Score");
+            Console.WriteLine("DONE!");
+
+            Console.WriteLine($"RSquared Score: {metrics.RSquared:0.##}");
+            Console.WriteLine($"Root Mean Squared Error: {metrics.RootMeanSquaredError:#.##}");
+        } */
+        
     }
 }
