@@ -170,6 +170,7 @@ namespace WineML
         }
 
         // 23-11-2024 Not in use at the moment
+        /*
         private static void PrintHeader(string title)
         {
             var originalForegroundColor = Console.ForegroundColor;
@@ -188,7 +189,8 @@ namespace WineML
             Console.ForegroundColor = originalForegroundColor;
             Console.BackgroundColor = originalBackgroundColor;
         }
-
+        */
+        
         // Note: Just a demo while learning
         // Showing the code of training directly - more clear to read but duplicate code !
         /*

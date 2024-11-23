@@ -4,7 +4,7 @@ Last updated: 22-11-2024
 
 - Tasting wine using ML.NET
 - .NET 8 Console App 
-- This is a console application using Microsoft�s Machine Learning framework ML.NET for tasting wine
+- This is a console application using Microsoft Machine Learning framework ML.NET for predicting the best wine
 - FastTree regression used to train the Model
 - Visual Studio Code as IDE
 
