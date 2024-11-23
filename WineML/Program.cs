@@ -26,11 +26,11 @@ namespace WineML
 
         static void Main(string[] args)
         {
-            // Note: 22-11-2024 - Throwing an error in VS Code
+            // Note: 22-11-2024 - Throws an Exception in VS Code
             // PrintHeader("Tasting wine with ML.NET");
 
             Console.WriteLine("-----Tasting wine with ML.NET------");
-             Console.WriteLine("");
+            Console.WriteLine("");
 
             var mlContext = new MLContext();
 
@@ -169,12 +169,14 @@ namespace WineML
                        .Fit(trainingData);
         }
 
+        // 23-11-2024 Not in use at the moment
         private static void PrintHeader(string title)
         {
             var originalForegroundColor = Console.ForegroundColor;
             var originalBackgroundColor = Console.BackgroundColor;
             
-            var padding = (Console.WindowWidth - title.Length) / 2;
+            // VS Code throw an exception
+            var padding  = (Console.WindowWidth - title.Length) / 2;
 
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.BackgroundColor = ConsoleColor.White;
