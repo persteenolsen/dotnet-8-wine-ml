@@ -1,6 +1,6 @@
 Using Machine Learning to taste wine
 
-Last updated: 22-11-2024
+Last updated: 11-01-2025
 
 - Tasting wine using ML.NET
 - .NET 8 Console App 
